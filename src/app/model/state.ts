@@ -1,7 +1,8 @@
-export interface State<T> {
-  allItems: {[id: string]: T};
+import { InitialState } from './initial-state';
+import { Group } from './group';
+
+export interface State<T extends Group> extends InitialState<T> {
   items: {[id: string]: T};
   expanded: string[];
   height: number;
-  itemHeight: number;
 }
