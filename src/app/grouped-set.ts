@@ -29,6 +29,7 @@ function processInitialize<T extends Group>(state: State<T>, action: Initialize<
 
   return {
     allItems,
+    keys,
     items,
     height: keys.length * headerHeight,
     expanded: [],
@@ -91,5 +92,33 @@ function processScroll<T extends Group>(state: State<T>, action: Scroll): State<
 function processToggle<T extends Group>(state: State<T>, action: Toggle): State<T> {
   return state;
 }
+
+function findGroupIndex<T extends Group>(
+  { keys, allItems, headerHeight, itemHeight, expanded }: State<T>, position: number, to: number, index: number = -1):
+  { index: number, groupPosition: number } {
+  let key;
+  let groupPosition = position;
+  while (position < to) {
+    index++;
+    groupPosition = position;
+    key = keys[index];
+
+    position += headerHeight;
+    if (position < to) {
+      if (expanded.indexOf(key) !== -1) {
+        position += allItems[key].count * itemHeight;
+      }
+    }
+  }
+
+  return {
+    index,
+    groupPosition
+  };
+}
+
+function findItemIndex<T extends Group>(
+
+)
 
 // https://jsfiddle.net/u8100v8u/14/
