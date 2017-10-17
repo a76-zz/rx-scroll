@@ -1,3 +1,4 @@
 export class Scroll {
-  position: number;
+  constructor (public position: number) {
+  }
 }

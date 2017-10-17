@@ -1,124 +1,89 @@
-import { State, Group, Action, Scroll, Toggle, Initialize } from './model';
+import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize } from './model';
 
 export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Action<T>): State<T> {
 
   if (action instanceof Initialize) {
-    return processInitialize(state, action);
+    return processInitialize(state, action.state);
   }
 
   if (action instanceof Scroll) {
-    return processScroll(state, action);
+    return processScroll(state, action.position);
   }
 
   if (action instanceof Toggle) {
-    return processToggle(state, action);
+    return processToggle(state, action.id);
   }
 
   // To support reusability
   return state;
 }
 
-function processInitialize<T extends Group>(state: State<T>, action: Initialize<T>): State<T> {
-  const { allItems, itemHeight, headerHeight, containerHeight } = action.state;
+function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>): State<T> {
+  const { allItems, headerHeight } = state;
 
   const keys = Object.keys(allItems);
-  const capacity = Math.min(Math.ceil(containerHeight / headerHeight), keys.length);
+  const expanded = [];
+  const position = 0;
+  const height = keys.length * headerHeight;
+  const result: State<T> = { keys, expanded, position, height, ...state };
 
-  const items = keys.slice(0, capacity)
-    .reduce((result, key) => { result[key] = allItems[key]; return result; }, {});
-
-  return {
-    allItems,
-    keys,
-    items,
-    height: keys.length * headerHeight,
-    expanded: [],
-    itemHeight,
-    headerHeight,
-    containerHeight
-  };
+  return processScroll(result, position);
 }
 
-function scrollFragment<T extends Group>(
-  index: number,
-  from: number,
-  to: number,
-  { allItems, height, expanded, itemHeight, headerHeight, containerHeight }: State<T>,
-  tailIndex: number = -1):
-  {tailIndex: number, index: number, position: number} {
-    const keys = Object.keys(allItems);
-    let key;
-    let position = from;
+function processScroll<T extends Group>(state: State<T>, position: number): State<T> {
+  const { height, headerHeight, itemHeight, containerHeight } = state;
+  const from = position * height;
+  const to = from + containerHeight;
 
-    while (position < to) {
-      key = keys[index];
-      if (tailIndex === -1) {
-        position += headerHeight;
-      }
+  const start: Index = findIndex(state, 0, from, Math.floor);
+  const end: Index = findIndex(state, start.groupPosition, to, Math.ceil);
 
-      if (position < to) {
-        if (expanded.indexOf(key) === -1) {
-          const capacity = Math.floor((to - position) / itemHeight);
-          const count = allItems[key].count - Math.max(tailIndex, 0);
-
-          position += Math.min(count, capacity) * itemHeight;
-          if (capacity < count) {
-            tailIndex = capacity - 1;
-          }
-        }
-      } else {
-        tailIndex = 0;
-      }
-
-      index++;
-    }
-
-    return {
-      tailIndex,
-      index,
-      position
-    };
-
+  return Object.assign({}, state, {start, end, position});
 }
 
-function processScroll<T extends Group>(state: State<T>, action: Scroll): State<T> {
-  const from = action.position * state.height;
+function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
+  const { expanded, keys, itemHeight, allItems, height, containerHeight } = state;
+  const index = expanded.indexOf(id);
+  const found = index !== -1;
 
-  const { tailIndex, index, position } = scrollFragment(0, 0, from, state);
+  const nextExpanded = found ? [expanded.slice(0, index), expanded.slice(index + 1)] : [id, ...expanded];
+  const itemsHeight = allItems[id].count * itemHeight;
 
-  const { endTailPosition, endIndex, endPosition} = scrollFragment(tailIndex )
+  const nextHeight = found ? height - itemsHeight : height + itemsHeight;
+  const result: State<T> = Object.assign({}, state, {expanded: nextExpanded, height: nextHeight});
+
+  result.end = findIndex(result, result.start.groupPosition, result.position + containerHeight, Math.ceil);
+  return result;
 }
 
-function processToggle<T extends Group>(state: State<T>, action: Toggle): State<T> {
-  return state;
-}
+function findIndex<T extends Group>(
+  { keys, allItems, headerHeight, itemHeight, expanded }: State<T>,
+  position: number, to: number, roundFunc: (number) => number, index: number = -1): Index {
 
-function findGroupIndex<T extends Group>(
-  { keys, allItems, headerHeight, itemHeight, expanded }: State<T>, position: number, to: number, index: number = -1):
-  { index: number, groupPosition: number } {
   let key;
   let groupPosition = position;
-  while (position < to) {
+  while (position <= to && index < (keys.length - 1)) {
     index++;
     groupPosition = position;
     key = keys[index];
 
     position += headerHeight;
-    if (position < to) {
+    if (position <= to) {
       if (expanded.indexOf(key) !== -1) {
         position += allItems[key].count * itemHeight;
       }
     }
   }
 
+  const capacity = expanded.indexOf(key) !== -1 ? Math.max(0, roundFunc((to - groupPosition - headerHeight) / itemHeight)) : 0;
+  const shift = to > groupPosition ? to - (groupPosition + headerHeight + capacity * itemHeight) : 0;
+
   return {
     index,
-    groupPosition
+    groupPosition,
+    itemIndex: capacity - 1,
+    shift
   };
 }
-
-function findItemIndex<T extends Group>(
-
-)
 
 // https://jsfiddle.net/u8100v8u/14/

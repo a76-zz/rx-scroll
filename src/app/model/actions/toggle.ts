@@ -1,4 +1,5 @@
 export class Toggle {
-  id: string;
+  constructor(public id: string) {
+  }
 }
 
