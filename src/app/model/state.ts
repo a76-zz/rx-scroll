@@ -6,6 +6,7 @@ export interface State<T extends Group> extends InitialState<T> {
   start?: Index;
   end?: Index;
   keys: string[];
+  reverseMap: Map<T, string>;
   expanded: string[];
   height: number;
   position: number;

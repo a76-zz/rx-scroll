@@ -20,9 +20,9 @@ export function createIterator<T extends Group, TItem>(
 
         if (index === start.index) {
           if (start.index !== end.index) {
-            result.push(...children.slice(start.itemIndex));
+            result.push(...children.slice(Math.max(start.itemIndex, 0)));
           } else {
-            result.push(...children.slice(start.itemIndex, end.itemIndex));
+            result.push(...children.slice(Math.max(start.itemIndex, 0), end.itemIndex));
           }
         }
 

@@ -1,19 +1,12 @@
 import { Group, State } from './model';
 import { createIterator } from './grouped-set-iterator';
-
-function generateArray<T>(length: number, createItem: (index: number) => T) {
-    const result: T[] = [];
-    for (let index = 0; index < length; ++index) {
-        result[index] = createItem(index);
-    }
-
-    return result;
-}
+import { generateArray } from './generate-array';
 
 describe('grouped set iterator', () => {
     it('different groups', () => {
         const state: State<Group> = {
             keys: ['first', 'second'],
+            reverseMap: undefined,
             position: 0,
             expanded: ['second'],
             start: {
@@ -51,6 +44,7 @@ describe('grouped set iterator', () => {
         const state: State<Group> = {
             keys: ['first', 'second'],
             position: 0,
+            reverseMap: undefined,
             expanded: ['second'],
             start: {
                 index: 1,

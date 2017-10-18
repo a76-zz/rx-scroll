@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { GroupedSetComponent } from './grouped-set/grouped-set.component';
+import { GroupedSetService } from './grouped-set.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { GroupedSetComponent } from './grouped-set/grouped-set.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [GroupedSetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

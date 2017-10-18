@@ -1,0 +1,12 @@
+.container {
+    overflow: auto;
+    width: 300px;
+}
+
+.header {
+    height: 30px;
+}
+
+.item {
+    height: 20px;
+}

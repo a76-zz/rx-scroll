@@ -18,6 +18,15 @@ export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Ac
   return state;
 }
 
+function toReverseMap<T>(items: {[id: string]: T}, keys: string[]): Map<T, string> {
+  const result = new Map<T, string>();
+
+  for (const key of keys) {
+    result.set(items[key], key);
+  }
+  return result;
+}
+
 function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>): State<T> {
   const { allItems, headerHeight } = state;
 
@@ -25,7 +34,8 @@ function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>)
   const expanded = [];
   const position = 0;
   const height = keys.length * headerHeight;
-  const result: State<T> = { keys, expanded, position, height, ...state };
+  const reverseMap = toReverseMap(allItems, keys);
+  const result: State<T> = { keys, reverseMap, expanded, position, height, ...state };
 
   return processScroll(result, position);
 }
