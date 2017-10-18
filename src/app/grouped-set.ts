@@ -38,7 +38,7 @@ function processScroll<T extends Group>(state: State<T>, position: number): Stat
   const start: Index = findIndex(state, 0, from, Math.floor);
   const end: Index = findIndex(state, start.groupPosition, to, Math.ceil);
 
-  return Object.assign({}, state, {start, end, position});
+  return Object.assign({}, state, {start, end, position: from});
 }
 
 function processToggle<T extends Group>(state: State<T>, id: string): State<T> {

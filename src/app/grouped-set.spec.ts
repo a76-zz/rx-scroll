@@ -17,16 +17,16 @@ describe('grouped set', () => {
             containerHeight: 10
         });
 
-        const result = groupedSetStateFunc(undefined, action);
+        const { start, end } = groupedSetStateFunc(undefined, action);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 0,
             groupPosition: 0,
             itemIndex: -1,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 2,
             itemIndex: -1,
@@ -49,16 +49,16 @@ describe('grouped set', () => {
             containerHeight: 6
         });
 
-        const result = groupedSetStateFunc(undefined, action);
+        const { start, end } = groupedSetStateFunc(undefined, action);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 0,
             groupPosition: 0,
             itemIndex: -1,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 4,
             itemIndex: -1,
@@ -81,16 +81,16 @@ describe('grouped set', () => {
             containerHeight: 4
         });
 
-        const result = groupedSetStateFunc(undefined, action);
+        const { start, end } = groupedSetStateFunc(undefined, action);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 0,
             groupPosition: 0,
             itemIndex: -1,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 4,
             itemIndex: -1,
@@ -116,19 +116,19 @@ describe('grouped set', () => {
         const state = groupedSetStateFunc(undefined, action);
         const toggle = new Toggle('second');
 
-        const result = groupedSetStateFunc(state, toggle);
+        const { expanded, height, start, end } = groupedSetStateFunc(state, toggle);
 
-        expect(result.expanded).toEqual(['second']);
-        expect(result.height).toEqual(108);
+        expect(expanded).toEqual(['second']);
+        expect(height).toEqual(108);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 0,
             groupPosition: 0,
             itemIndex: -1,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 4,
             itemIndex: -1,
@@ -154,19 +154,19 @@ describe('grouped set', () => {
         const state = groupedSetStateFunc(undefined, action);
         const toggle = new Toggle('second');
 
-        const result = groupedSetStateFunc(state, toggle);
+        const { expanded, height, start, end } = groupedSetStateFunc(state, toggle);
 
-        expect(result.expanded).toEqual(['second']);
-        expect(result.height).toEqual(104);
+        expect(expanded).toEqual(['second']);
+        expect(height).toEqual(104);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 0,
             groupPosition: 0,
             itemIndex: -1,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 2,
             itemIndex: 5,
@@ -196,20 +196,22 @@ describe('grouped set', () => {
 
         const scroll = new Scroll(0.5);
 
-        const result = groupedSetStateFunc(toggleResult, scroll);
+        const { start, end, position } = groupedSetStateFunc(toggleResult, scroll);
 
-        expect(result.start).toEqual({
+        expect(start).toEqual({
             index: 1,
             groupPosition: 2,
             itemIndex: 47,
             shift: 0
         });
 
-        expect(result.end).toEqual({
+        expect(end).toEqual({
             index: 1,
             groupPosition: 4,
             itemIndex: 55,
             shift: 0
         });
+
+        expect(position).toEqual(52);
     });
 });

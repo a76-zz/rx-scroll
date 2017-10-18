@@ -20,18 +20,18 @@ export function createIterator<T extends Group, TItem>(
 
         if (index === start.index) {
           if (start.index !== end.index) {
-            result.push(children.slice(start.itemIndex));
+            result.push(...children.slice(start.itemIndex));
           } else {
-            result.push(children.slice(start.itemIndex, end.itemIndex - start.itemIndex));
+            result.push(...children.slice(start.itemIndex, end.itemIndex));
           }
         }
 
         if (index === end.index && index !== start.index) {
-          result.push(children.slice(0, end.index + 1));
+          result.push(...children.slice(0, end.itemIndex + 1));
         }
 
         if (index !== start.index && index !== end.index) {
-          result.push(children);
+          result.push(...children);
         }
       }
     }
