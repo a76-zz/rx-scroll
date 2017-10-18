@@ -42,13 +42,12 @@ function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>)
 
 function processScroll<T extends Group>(state: State<T>, position: number): State<T> {
   const { height, headerHeight, itemHeight, containerHeight } = state;
-  const from = position * height;
-  const to = from + containerHeight;
+  const to = position + containerHeight;
 
-  const start: Index = findIndex(state, 0, from, Math.floor);
-  const end: Index = findIndex(state, start.groupPosition, to, Math.ceil);
+  const start: Index = findIndex(state, 0, position, Math.floor);
+  const end: Index = findIndex(state, 0, to, Math.ceil);
 
-  return Object.assign({}, state, {start, end, position: from});
+  return Object.assign({}, state, {start, end, position});
 }
 
 function processToggle<T extends Group>(state: State<T>, id: string): State<T> {

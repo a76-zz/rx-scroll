@@ -194,7 +194,7 @@ describe('grouped set', () => {
 
         const toggleResult = groupedSetStateFunc(state, toggle);
 
-        const scroll = new Scroll(0.5);
+        const scroll = new Scroll(52);
 
         const { start, end, position } = groupedSetStateFunc(toggleResult, scroll);
 

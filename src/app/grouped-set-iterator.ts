@@ -1,7 +1,7 @@
 import { State, Group, IteratorResult } from './model';
 
 export function createIterator<T extends Group, TItem>(
-    { start, end, keys, allItems, expanded }: State<T>,
+    { start, end, keys, allItems, expanded, position }: State<T>,
     getChildren: (group: T) => TItem[])
     : IteratorResult<T, TItem>[] {
     const result: IteratorResult<T, TItem>[] = [];
@@ -13,7 +13,13 @@ export function createIterator<T extends Group, TItem>(
     for (let index = start.index; index <= end.index; ++index) {
       key = keys[index];
       group = allItems[key];
-      result.push(group);
+      if (index === start.index && start.groupPosition >= position) {
+        result.push(group);
+      }
+
+      if (index === end.index && index !== start.index && end.groupPosition >= position) {
+        result.push(group);
+      }
 
       if (expanded.indexOf(key) !== -1) {
         children = getChildren(group);

@@ -1,7 +1,7 @@
 <div class="container" [style.height]="state.containerHeight + 'px'" (scroll)="scroll($event)" [style.scrollTop]="state.position + 'px'">
   <div class="content" [style.height]="state.height + 'px'">
     <div [style.transform]="'translate(0,' + state.position + 'px)'">
-      <div *ngFor="let item of Items">
+      <div *ngFor="let item of items">
         <div *ngIf="item.count; else itemBlock" (click)="toggle(item)" class="header">{{item.count}}</div>
         <ng-template #itemBlock>
           <div class="item">{{item}}</div>
