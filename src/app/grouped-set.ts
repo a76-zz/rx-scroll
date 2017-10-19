@@ -61,7 +61,7 @@ function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
   const nextHeight = found ? height - itemsHeight : height + itemsHeight;
   const result: State<T> = Object.assign({}, state, {expanded: nextExpanded, height: nextHeight});
 
-  result.end = findIndex(result, result.start.groupPosition, result.position + containerHeight, Math.ceil);
+  result.end = findIndex(result, 0, result.position + containerHeight, Math.ceil);
   return result;
 }
 
