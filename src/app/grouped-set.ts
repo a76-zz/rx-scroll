@@ -55,7 +55,7 @@ function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
   const index = expanded.indexOf(id);
   const found = index !== -1;
 
-  const nextExpanded = found ? [expanded.slice(0, index), expanded.slice(index + 1)] : [id, ...expanded];
+  const nextExpanded = found ? [...expanded.slice(0, index), ...expanded.slice(index + 1)] : [id, ...expanded];
   const itemsHeight = allItems[id].count * itemHeight;
 
   const nextHeight = found ? height - itemsHeight : height + itemsHeight;
