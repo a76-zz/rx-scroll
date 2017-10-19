@@ -4,9 +4,18 @@
 }
 
 .header {
-    height: 30px;
+    height: 29px;
+    background-color: #ddd;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    line-height: 29px;
+    padding: 0 5px;
 }
 
 .item {
     height: 20px;
+    background-color: #eee;
+    line-height: 20px;
+    padding: 0 10px;
 }

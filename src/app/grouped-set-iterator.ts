@@ -21,6 +21,10 @@ export function createIterator<T extends Group, TItem>(
         result.push(group);
       }
 
+      if (index > start.index && index < end.index) {
+        result.push(group);
+      }
+
       if (expanded.indexOf(key) !== -1) {
         children = getChildren(group);
 

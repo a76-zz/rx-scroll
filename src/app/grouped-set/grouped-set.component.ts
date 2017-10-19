@@ -16,7 +16,7 @@ export class GroupedSetComponent implements OnChanges {
   items: any = [];
 
   ngOnChanges(changes) {
-    console.log(this.state);
+    // console.log(this.state);
     if (this.state) {
       this.items = createIterator(this.state, group => generateArray(group.count, index => index));
     }

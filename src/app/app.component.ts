@@ -5,15 +5,27 @@ import { Initialize, InitialState, Group, Action } from './model';
 const initializeAction = new Initialize({
   allItems: {
       first: {
-          count: 10
+        count: 10
       },
       second: {
-          count: 100
+        count: 100
+      },
+      third: {
+        count: 1000
+      },
+      forth: {
+        count: 10000
+      },
+      fifth: {
+        count: 100000
+      },
+      sixth: {
+        count: 1000000
       }
   },
   itemHeight: 20,
   headerHeight: 30,
-  containerHeight: 100
+  containerHeight: 500
 });
 
 @Component({
