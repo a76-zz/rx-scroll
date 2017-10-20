@@ -1,4 +1,4 @@
-<div class="container" [style.height]="state.containerHeight + 'px'" (scroll)="scroll($event)" [style.scrollTop]="state.position + 'px'">
+<div #container class="container" (scroll)="scroll($event)" [style.scrollTop]="state.position + 'px'">
   <div class="content" [style.height]="state.height + 'px'">
     <div [style.transform]="'translate(0,' + state.position + 'px)'">
       <div *ngFor="let item of items">

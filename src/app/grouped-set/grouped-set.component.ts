@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, DoCheck } from '@angular/core';
-import { Subject } from 'rxjs/Rx';
-import { State, Group, Action, Scroll, Toggle, IteratorResult } from '../model';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, DoCheck } from '@angular/core';
+import { OnChanges, OnInit, OnDestroy, ElementRef  } from '@angular/core';
+
+import { Subject, Observable, Subscription } from 'rxjs/Rx';
+import { State, Group, Action, Scroll, Toggle, IteratorResult, Resize } from '../model';
 import { createIterator } from '../grouped-set-iterator';
 import { generateArray } from '../generate-array';
 
@@ -10,10 +12,28 @@ import { generateArray } from '../generate-array';
   styleUrls: ['./grouped-set.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupedSetComponent implements OnChanges {
+export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
   @Input() state: State<Group>;
   @Output() actions: EventEmitter<Action<Group>> = new EventEmitter();
   items: any = [];
+  private subscription: Subscription;
+
+  constructor(private container: ElementRef) {
+  }
+
+  get containerHeight(): number {
+    return this.container.nativeElement.firstElementChild.clientHeight;
+  }
+
+  ngOnInit() {
+    this.subscription = Observable.fromEvent(window, 'resize').subscribe(
+      () => { this.actions.next(new Resize(this.containerHeight)); }
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   ngOnChanges(changes) {
     // console.log(this.state);

@@ -1,4 +1,4 @@
-import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize } from './model';
+import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize, Resize } from './model';
 
 export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Action<T>): State<T> {
 
@@ -12,6 +12,10 @@ export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Ac
 
   if (action instanceof Toggle) {
     return processToggle(state, action.id);
+  }
+
+  if (action instanceof Resize) {
+    return processResize(state, action.containerHeight);
   }
 
   // To support reusability
@@ -48,6 +52,16 @@ function processScroll<T extends Group>(state: State<T>, position: number): Stat
   const end: Index = findIndex(state, 0, to, Math.ceil);
 
   return Object.assign({}, state, {start, end, position});
+}
+
+function processResize<T extends Group>(state: State<T>, containerHeight: number): State<T> {
+  const result: State<T> = Object.assign({}, state, { containerHeight });
+  const { position, height } = result;
+
+  result.position = Math.min(Math.max(height - containerHeight, 0), position);
+  result.end = findIndex(result, 0, result.position + containerHeight, Math.ceil);
+
+  return result;
 }
 
 function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
