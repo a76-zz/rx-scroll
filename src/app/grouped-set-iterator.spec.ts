@@ -1,10 +1,10 @@
-import { Group, State } from './model';
+import { State } from './model';
 import { createIterator } from './grouped-set-iterator';
 import { generateArray } from './generate-array';
 
 describe('grouped set iterator', () => {
     it('different groups', () => {
-        const state: State<Group> = {
+        const state: State = {
             keys: ['first', 'second'],
             reverseMap: undefined,
             position: 0,
@@ -41,7 +41,7 @@ describe('grouped set iterator', () => {
     });
 
     it('the same group', () => {
-        const state: State<Group> = {
+        const state: State = {
             keys: ['first', 'second'],
             position: 0,
             reverseMap: undefined,

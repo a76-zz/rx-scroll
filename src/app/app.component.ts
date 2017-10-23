@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupedSetService } from './grouped-set.service';
-import { Initialize, InitialState, Group, Action } from './model';
+import { Initialize, InitialState, Action } from './model';
 
 const initializeAction = new Initialize({
   allItems: {
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     this.service.actions.next(initializeAction);
   }
 
-  onHandleActions(action: Action<Group>) {
+  onHandleActions(action: Action) {
     this.service.actions.next(action);
   }
 }

@@ -5,4 +5,4 @@ import { Resize } from './resize';
 
 export { Scroll, Toggle, Initialize, Resize };
 
-export type Action<T> = Scroll | Toggle | Resize | Initialize<T>;
+export type Action = Scroll | Toggle | Resize | Initialize;

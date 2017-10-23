@@ -1,6 +1,6 @@
 import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize, Resize } from './model';
 
-export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Action<T>): State<T> {
+export function groupedSetStateFunc(state: State, action: Action): State {
 
   if (action instanceof Initialize) {
     return processInitialize(state, action.state);
@@ -22,8 +22,8 @@ export function groupedSetStateFunc<T extends Group>(state: State<T>, action: Ac
   return state;
 }
 
-function toReverseMap<T>(items: {[id: string]: T}, keys: string[]): Map<T, string> {
-  const result = new Map<T, string>();
+function toReverseMap(items: {[id: string]: Group}, keys: string[]): Map<Group, string> {
+  const result = new Map<Group, string>();
 
   for (const key of keys) {
     result.set(items[key], key);
@@ -31,7 +31,7 @@ function toReverseMap<T>(items: {[id: string]: T}, keys: string[]): Map<T, strin
   return result;
 }
 
-function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>): State<T> {
+function processInitialize<T extends Group>(_: State, state: InitialState): State {
   const { allItems, headerHeight } = state;
 
   const keys = Object.keys(allItems);
@@ -39,12 +39,12 @@ function processInitialize<T extends Group>(_: State<T>, state: InitialState<T>)
   const position = 0;
   const height = keys.length * headerHeight;
   const reverseMap = toReverseMap(allItems, keys);
-  const result: State<T> = { keys, reverseMap, expanded, position, height, ...state };
+  const result: State = { keys, reverseMap, expanded, position, height, ...state };
 
   return processScroll(result, position);
 }
 
-function processScroll<T extends Group>(state: State<T>, position: number): State<T> {
+function processScroll(state: State, position: number): State {
   const { height, headerHeight, itemHeight, containerHeight } = state;
   const to = position + containerHeight;
 
@@ -54,8 +54,8 @@ function processScroll<T extends Group>(state: State<T>, position: number): Stat
   return Object.assign({}, state, {start, end, position});
 }
 
-function processResize<T extends Group>(state: State<T>, containerHeight: number): State<T> {
-  const result: State<T> = Object.assign({}, state, { containerHeight });
+function processResize(state: State, containerHeight: number): State {
+  const result: State = Object.assign({}, state, { containerHeight });
   const { position, height } = result;
 
   result.position = Math.min(Math.max(height - containerHeight, 0), position);
@@ -64,7 +64,7 @@ function processResize<T extends Group>(state: State<T>, containerHeight: number
   return result;
 }
 
-function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
+function processToggle(state: State, id: string): State {
   const { expanded, keys, itemHeight, allItems, height, containerHeight } = state;
   const index = expanded.indexOf(id);
   const found = index !== -1;
@@ -73,14 +73,14 @@ function processToggle<T extends Group>(state: State<T>, id: string): State<T> {
   const itemsHeight = allItems[id].count * itemHeight;
 
   const nextHeight = found ? height - itemsHeight : height + itemsHeight;
-  const result: State<T> = Object.assign({}, state, {expanded: nextExpanded, height: nextHeight});
+  const result: State = Object.assign({}, state, {expanded: nextExpanded, height: nextHeight});
 
   result.end = findIndex(result, 0, result.position + containerHeight, Math.ceil);
   return result;
 }
 
-function findIndex<T extends Group>(
-  { keys, allItems, headerHeight, itemHeight, expanded }: State<T>,
+function findIndex(
+  { keys, allItems, headerHeight, itemHeight, expanded }: State,
   position: number, to: number, roundFunc: (number) => number, index: number = -1): Index {
 
   let key;

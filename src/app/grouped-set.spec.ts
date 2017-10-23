@@ -207,8 +207,8 @@ describe('grouped set', () => {
 
         expect(end).toEqual({
             index: 1,
-            groupPosition: 4,
-            itemIndex: 55,
+            groupPosition: 2,
+            itemIndex: 57,
             shift: 0
         });
 

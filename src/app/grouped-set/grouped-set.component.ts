@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, DoChec
 import { OnChanges, OnInit, OnDestroy, ElementRef  } from '@angular/core';
 
 import { Subject, Observable, Subscription } from 'rxjs/Rx';
-import { State, Group, Action, Scroll, Toggle, IteratorResult, Resize } from '../model';
+import { State, Action, Scroll, Toggle, IteratorResult, Resize } from '../model';
 import { createIterator } from '../grouped-set-iterator';
 import { generateArray } from '../generate-array';
 
@@ -13,8 +13,8 @@ import { generateArray } from '../generate-array';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() state: State<Group>;
-  @Output() actions: EventEmitter<Action<Group>> = new EventEmitter();
+  @Input() state: State;
+  @Output() actions: EventEmitter<Action> = new EventEmitter();
   items: any = [];
   private subscription: Subscription;
 

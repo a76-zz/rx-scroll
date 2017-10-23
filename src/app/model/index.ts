@@ -6,4 +6,4 @@ export { Index } from './index.interface';
 import { Group } from './group';
 export { Group };
 
-export type IteratorResult<TGroup extends Group, TItem> = TGroup | TItem;
+export type IteratorResult<TItem> = Group | TItem;

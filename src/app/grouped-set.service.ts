@@ -13,12 +13,12 @@ function toBehavior<T>(input: Observable<T>) {
 
 @Injectable()
 export class GroupedSetService {
-    actions: Subject<Action<Group>> = new Subject<Action<Group>>();
-    state: Observable<State<Group>>;
+    actions: Subject<Action> = new Subject<Action>();
+    state: Observable<State>;
 
     constructor() {
-        this.state = toBehavior(this.actions.scan<Action<Group>, State<Group>>(
-            (state, action) => groupedSetStateFunc<Group>(state, action),
+        this.state = toBehavior(this.actions.scan<Action, State>(
+            (state, action) => groupedSetStateFunc(state, action),
             undefined
         ));
     }

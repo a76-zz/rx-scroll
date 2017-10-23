@@ -1,10 +1,10 @@
 import { State, Group, IteratorResult } from './model';
 
-export function createIterator<T extends Group, TItem>(
-    { start, end, keys, allItems, expanded, position }: State<T>,
-    getChildren: (group: T) => TItem[])
-    : IteratorResult<T, TItem>[] {
-    const result: IteratorResult<T, TItem>[] = [];
+export function createIterator<TItem>(
+    { start, end, keys, allItems, expanded, position }: State,
+    getChildren: (group: Group) => TItem[])
+    : IteratorResult<TItem>[] {
+    const result: IteratorResult<TItem>[] = [];
 
     let key;
     let group;
