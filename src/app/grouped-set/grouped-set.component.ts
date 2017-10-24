@@ -15,7 +15,7 @@ import { generateArray } from '../generate-array';
 export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
   @Input() state: State;
   @Output() actions: EventEmitter<Action> = new EventEmitter();
-  items: any = [];
+  items: IteratorResult<number>[] = [];
   private subscription: Subscription;
 
   constructor(private container: ElementRef) {
