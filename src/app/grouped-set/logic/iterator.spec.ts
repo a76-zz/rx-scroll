@@ -1,5 +1,5 @@
-import { State } from './model';
-import { createIterator } from './grouped-set-iterator';
+import { State } from '../model';
+import { createIterator } from './iterator';
 import { generateArray } from './generate-array';
 
 describe('grouped set iterator', () => {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupedSetService } from './grouped-set.service';
-import { Initialize, InitialState, Action } from './model';
+import { GroupedSetService, Initialize, InitialState, Action } from './grouped-set';
 
 const initializeAction = new Initialize({
   allItems: {

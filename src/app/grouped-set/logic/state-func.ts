@@ -1,4 +1,4 @@
-import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize, Resize } from './model';
+import { State, InitialState, Group, Action, Scroll, Toggle, Index, Initialize, Resize } from '../model';
 
 export function groupedSetStateFunc(state: State, action: Action): State {
 

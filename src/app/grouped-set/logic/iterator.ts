@@ -1,4 +1,4 @@
-import { State, Group, IteratorResult } from './model';
+import { State, Group, IteratorResult } from '../model';
 
 export function createIterator<TItem>(
     { start, end, keys, allItems, expanded, position }: State,

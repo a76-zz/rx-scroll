@@ -1,5 +1,5 @@
-import { groupedSetStateFunc } from './grouped-set';
-import { InitialState, Initialize, Group, Toggle, Scroll, State } from './model';
+import { groupedSetStateFunc } from './state-func';
+import { InitialState, Initialize, Group, Toggle, Scroll, State } from '../model';
 
 describe('grouped set', () => {
     it('initialize case 1', () => {

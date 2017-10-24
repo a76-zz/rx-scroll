@@ -3,13 +3,12 @@ import { OnChanges, OnInit, OnDestroy, ElementRef  } from '@angular/core';
 
 import { Subject, Observable, Subscription } from 'rxjs/Rx';
 import { State, Action, Scroll, Toggle, IteratorResult, Resize } from '../model';
-import { createIterator } from '../grouped-set-iterator';
-import { generateArray } from '../generate-array';
+import { createIterator, generateArray } from '../logic';
 
 @Component({
   selector: 'app-grouped-set',
-  templateUrl: './grouped-set.component.html',
-  styleUrls: ['./grouped-set.component.css'],
+  templateUrl: './grouped-set.html',
+  styleUrls: ['./grouped-set.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
