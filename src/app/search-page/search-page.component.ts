@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupedSetService, Initialize, InitialState, Action } from '../grouped-set';
 import { SearchPageService  } from './search-page.service';
+import { ActivatedRoute } from '@angular/router';
+import { Search } from './model';
 
 const initializeAction = new Initialize({
   allItems: {
@@ -35,14 +37,19 @@ const initializeAction = new Initialize({
 })
 export class SearchPageComponent implements OnInit {
 
-  constructor(private service: GroupedSetService, private service2: SearchPageSerive) { }
+  constructor(private service: GroupedSetService, private searchService: SearchPageService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.service.actions.next(initializeAction);
+    this.searchService.route.next(this.activatedRoute);
   }
 
   onHandleActions(action: Action) {
     this.service.actions.next(action);
   }
 
+  onHandleSearch(value: string) {
+    this.searchService.actions.next(new Search(value));
+  }
 }

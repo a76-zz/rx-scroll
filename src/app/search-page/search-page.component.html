@@ -1,1 +1,2 @@
+<app-search-input [search]="searchService.search | async" (nextSearch)="onHandleSearch($event)"></app-search-input>
 <app-grouped-set [state]="service.state | async" (actions)="onHandleActions($event)"></app-grouped-set>
