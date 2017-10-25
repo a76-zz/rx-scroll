@@ -25,8 +25,9 @@ export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.updateHeight();
     this.subscription = Observable.fromEvent(window, 'resize').subscribe(
-      () => { this.actions.next(new Resize(this.containerHeight)); }
+      () => { this.updateHeight(); }
     );
   }
 
@@ -49,5 +50,11 @@ export class GroupedSetComponent implements OnChanges, OnInit, OnDestroy {
   toggle(item) {
     const id = this.state.reverseMap.get(item);
     this.actions.emit(new Toggle(id));
+  }
+
+  private updateHeight() {
+    if (this.state && this.state.containerHeight !== this.containerHeight) {
+      this.actions.next(new Resize(this.containerHeight));
+    }
   }
 }
